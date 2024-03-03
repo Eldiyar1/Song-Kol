@@ -6,7 +6,7 @@ class CarRental(models.Model):
     image_2 = models.ImageField(upload_to='car_rental_slider', blank=True, null=True)
     image_3 = models.ImageField(upload_to='car_rental_slider', blank=True, null=True)
     image_4 = models.ImageField(upload_to='car_rental_slider', blank=True, null=True)
-    image_5 = models.ImageField(upload_to='car_rental_slider',blank=True, null=True)
+    image_5 = models.ImageField(upload_to='car_rental_slider', blank=True, null=True)
     image_6 = models.ImageField(upload_to='car_rental_slider', blank=True, null=True)
     image_7 = models.ImageField(upload_to='car_rental_slider', blank=True, null=True)
     image_8 = models.ImageField(upload_to='car_rental_slider', blank=True, null=True)
@@ -47,7 +47,6 @@ class Taxi(models.Model):
     price = models.IntegerField(verbose_name='Цена')
     how_hours = models.CharField(max_length=40, verbose_name='Количество часов')
     map = models.ImageField(upload_to='taxi_map_to_path', blank=True, null=True, verbose_name="Карта пути таксиста")
-
 
     def __str__(self):
         return self.name_taxi

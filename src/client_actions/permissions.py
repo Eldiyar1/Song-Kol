@@ -3,7 +3,6 @@ from rest_framework.permissions import BasePermission, SAFE_METHODS
 
 
 class BasePermission(BasePermission):
-
     def has_permission(self, request, view):
         if request.method in SAFE_METHODS:
             return True
@@ -23,7 +22,7 @@ class BasePermission(BasePermission):
 
 class CommentPermission(BasePermission):
 
-    def has_permission(self, request, view):
+    def has_permissions(self, request, view):
         if request.method in SAFE_METHODS:
             return True
         if request.user.is_authenticated:
@@ -39,12 +38,11 @@ class CommentPermission(BasePermission):
         else:
             return False
 
+
 class IsVisibleAdminInComment(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.user.is_staff:
             return True
-
         if obj.is_approved is False:
             return False
-
         return True
