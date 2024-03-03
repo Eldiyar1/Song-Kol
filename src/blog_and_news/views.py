@@ -1,20 +1,13 @@
-from rest_framework import viewsets, status, permissions
+from rest_framework import generics, permissions
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
-
-from .serializers import BlogSerializer, SlidesImagesSerilaizer
-
+from .permissions import IsSuperuser
+from .serializers import BlogSerializer, SlidesImagesSerializer
 from .models import BlogNews
-
 from .filters import BlogFilter
 
 
-class IsSuperuser(permissions.BasePermission):
-    def has_permission(self, request, view):
-        return request.user.is_superuser
-
-
-class BlogViewSet(viewsets.ModelViewSet):
+class BlogListCreateView(generics.ListCreateAPIView):
     queryset = BlogNews.objects.all()
     serializer_class = BlogSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter]
@@ -23,8 +16,19 @@ class BlogViewSet(viewsets.ModelViewSet):
     search_fields = ['title', 'category']
 
 
-class SliderViewSet(viewsets.ModelViewSet):
+class BlogRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = BlogNews.objects.all()
-    serializer_class = SlidesImagesSerilaizer
+    serializer_class = BlogSerializer
+    permission_classes = [IsSuperuser | permissions.IsAuthenticatedOrReadOnly]
 
+
+class SliderListCreateView(generics.ListCreateAPIView):
+    queryset = BlogNews.objects.all()
+    serializer_class = SlidesImagesSerializer
+    permission_classes = [IsSuperuser | permissions.IsAuthenticatedOrReadOnly]
+
+
+class SliderRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = BlogNews.objects.all()
+    serializer_class = SlidesImagesSerializer
     permission_classes = [IsSuperuser | permissions.IsAuthenticatedOrReadOnly]

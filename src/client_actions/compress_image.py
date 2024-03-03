@@ -3,6 +3,7 @@ from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from rest_framework.exceptions import ValidationError
 
+
 def compress_image(image):
     try:
         img = Image.open(image).convert('RGB')

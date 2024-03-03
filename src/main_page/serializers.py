@@ -1,5 +1,4 @@
 from rest_framework import serializers
-
 from .models import FormQuestion, OurTeam, QuestionList
 
 
@@ -8,19 +7,16 @@ class FormQuestionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FormQuestion
-        fields = '__all__'
+        fields = ('id', 'question_text', 'contact', 'created_at')
 
 
 class OurTeamSerializer(serializers.ModelSerializer):
     class Meta:
         model = OurTeam
-        fields = '__all__'
+        fields = ('id', 'image', 'name', 'position', 'experience', 'quote', 'description')
 
 
 class QuestionListSerializer(serializers.ModelSerializer):
     class Meta:
         model = QuestionList
-        fields = '__all__'
-
-
-
+        fields = ('id', 'question', 'answer')

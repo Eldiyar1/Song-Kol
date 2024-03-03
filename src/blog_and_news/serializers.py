@@ -6,31 +6,21 @@ from .models import BlogNews, Slides
 from urllib.parse import unquote
 
 
-class SlidesImagesSerilaizer(serializers.ModelSerializer):
+class SlidesImagesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Slides
-        fields = (
-            "slides",
-            "id",
-        )
+        fields = ("slides", "id")
         read_only_fields = fields
 
 
 class BlogSerializer(serializers.ModelSerializer):
-    slides = SlidesImagesSerilaizer(many=True)
-    date_posted = serializers.DateTimeField(format='%d-%m-%y')
+    slides = SlidesImagesSerializer(many=True, required=False)
+    date_posted = serializers.DateTimeField(format='%d.%m.%y')
     content = serializers.SerializerMethodField()
 
     class Meta:
         model = BlogNews
-        fields = ('id',
-                  'title',
-                  'category',
-                  'date_posted',
-                  'image',
-                  'content',
-                  'slides',
-                  )
+        fields = ('id', 'title', 'category', 'date_posted', 'image', 'content', 'slides')
 
     def get_content(self, obj):
         # Получение хоста из контекста запроса

@@ -1,13 +1,14 @@
-from django.urls import path, include
-from rest_framework import routers
+from django.urls import path
 
-from main_page.views import FormQuestionViewSet, OurTeamViewSet, QuestionListViewSet
-
-router = routers.DefaultRouter()
-router.register(r'questions', FormQuestionViewSet)
-router.register(r'our_team', OurTeamViewSet)
-router.register(r'question_list', QuestionListViewSet)
+from main_page.views import (
+    FormQuestionCreateView, OurTeamCreateView, OurTeamRetrieveUpdateDestroyView,
+    QuestionListCreateView, QuestionListRetrieveUpdateDestroyView
+)
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('questions/', FormQuestionCreateView.as_view(), name='formquestion-create'),
+    path('our_team/', OurTeamCreateView.as_view(), name='ourteam-create'),
+    path('our_team/<int:pk>/', OurTeamRetrieveUpdateDestroyView.as_view(), name='ourteam-detail'),
+    path('question_list/', QuestionListCreateView.as_view(), name='questionlist-create'),
+    path('question_list/<int:pk>/', QuestionListRetrieveUpdateDestroyView.as_view(), name='questionlist-detail'),
 ]
