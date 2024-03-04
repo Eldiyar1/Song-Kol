@@ -2,10 +2,11 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.utils.text import format_lazy
 
-from blog_and_news.constants import CATEGORY_CHOICES
+from common.constants import CATEGORY_CHOICES
+from common.models import BaseModel
 
 
-class BlogNews(models.Model):
+class BlogNews(BaseModel):
     title = models.CharField(max_length=100, verbose_name=_("Заголовок"))
     category = models.CharField(max_length=100, choices=CATEGORY_CHOICES, verbose_name=_("Категория"))
     date_posted = models.DateTimeField(auto_now_add=True, verbose_name=_("Дата публикации"))
@@ -22,13 +23,10 @@ class BlogNews(models.Model):
         db_table = 'blog_news'
 
 
-class Slides(models.Model):
+class Slides(BaseModel):
     slides = models.ImageField(upload_to='slides_images', blank=False, null=False, verbose_name=_("Изображение"))
     blogs = models.ForeignKey(BlogNews, on_delete=models.CASCADE, verbose_name=_("Блог новостей"),
                               related_name="slides", blank=False, null=False)
-
-    def __str__(self) -> str:
-        return str(format_lazy(_("Изображение: {slides}"), slides=self.slides))
 
     class Meta:
         verbose_name_plural = _('Добавить слайды')

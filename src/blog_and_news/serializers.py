@@ -9,18 +9,21 @@ from urllib.parse import unquote
 class SlidesImagesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Slides
-        fields = ("slides", "id")
-        read_only_fields = fields
+        fields = ("id", "slides")
 
 
 class BlogSerializer(serializers.ModelSerializer):
-    slides = SlidesImagesSerializer(many=True, required=False)
+    slides = SlidesImagesSerializer(many=True, required=False, read_only=True)
+    upload_slides = serializers.ListField(
+        child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
+        write_only=True
+    )
     date_posted = serializers.DateTimeField(format='%d.%m.%y')
     content = serializers.SerializerMethodField()
 
     class Meta:
         model = BlogNews
-        fields = ('id', 'title', 'category', 'date_posted', 'image', 'content', 'slides')
+        fields = ('id', 'title', 'category', 'date_posted', 'image', 'content', 'slides', 'upload_slides')
 
     def get_content(self, obj):
         # Получение хоста из контекста запроса
@@ -34,3 +37,11 @@ class BlogSerializer(serializers.ModelSerializer):
         decoded_content = unquote(content_with_host)
 
         return decoded_content
+
+    def create(self, validated_data):
+        slides_data = validated_data.pop('upload_slides', [])
+        blog_news = BlogNews.objects.create(**validated_data)
+        for slide_data in slides_data:
+            Slides.objects.create(blogs=blog_news, slides=slide_data)
+        return blog_news
+

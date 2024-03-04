@@ -1,8 +1,6 @@
 import os
 from pathlib import Path
-
 from .helper.jazzmin import *
-
 from .helper.env_reader import env
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,6 +26,7 @@ APPS = [
     "tour",
     "main_page",
     "transport",
+    "common"
 ]
 
 THEME = [
@@ -98,6 +97,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 REST_FRAMEWORK = {
+
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "PAGE_SIZE": 10,
 }

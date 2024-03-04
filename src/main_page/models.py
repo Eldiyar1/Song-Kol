@@ -2,8 +2,10 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.utils.text import format_lazy
 
+from common.models import BaseModel
 
-class FormQuestion(models.Model):
+
+class FormQuestion(BaseModel):
     question_text = models.TextField(verbose_name=_("Введите ваш вопрос"))
     contact = models.CharField(max_length=100, verbose_name=_("Оставьте ваш E-mail или WhatsApp"))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Дата создания"))
@@ -18,7 +20,7 @@ class FormQuestion(models.Model):
         db_table = 'form_question'
 
 
-class OurTeam(models.Model):
+class OurTeam(BaseModel):
     image = models.ImageField(upload_to='our_team', verbose_name=_("Фото сотрудника"))
     name = models.CharField(max_length=100, verbose_name=_("Имя"))
     position = models.CharField(max_length=200, verbose_name=_("Должность"))
@@ -35,7 +37,7 @@ class OurTeam(models.Model):
         db_table = 'our_team'
 
 
-class QuestionList(models.Model):
+class QuestionList(BaseModel):
     question = models.CharField(max_length=250, verbose_name=_("Вопрос"))
     answer = models.CharField(max_length=250, verbose_name=_("Ответ"))
 

@@ -1,27 +1,12 @@
-import os
-import requests
-
-try:
-    from gunicorn.config import User
-except ModuleNotFoundError:
-    User = None
-
-from rest_framework import viewsets, status, permissions, generics
-from rest_framework.decorators import action
-from rest_framework.parsers import MultiPartParser
-from rest_framework.permissions import IsAdminUser
-from rest_framework import mixins, viewsets, status
-from rest_framework.permissions import IsAdminUser
+from rest_framework import generics
+from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.filters import OrderingFilter
-from django_filters.rest_framework import DjangoFilterBackend
+
 from datetime import timedelta
 from django.utils import timezone
 from rest_framework.pagination import LimitOffsetPagination
 from django.utils.translation import gettext_lazy as _
 
-from .compress_image import compress_image
-from .filters import CommentFilter
 from .models import (
     CommentView,
     PhotoComment
@@ -37,7 +22,7 @@ from .serializers import (
 class CommentViewListCreate(generics.ListCreateAPIView):
     queryset = CommentView.objects.all()
     serializer_class = CommentViewSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filterset_fields = ['is_approved']
     ordering_fields = ['-date', 'stars']
     pagination_class = LimitOffsetPagination
@@ -76,7 +61,7 @@ class CommentViewListCreate(generics.ListCreateAPIView):
 class CommentViewRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = CommentView.objects.all()
     serializer_class = CommentViewSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()

@@ -3,7 +3,7 @@ from rest_framework import status, generics
 from rest_framework.response import Response
 from django.utils.translation import gettext_lazy as _
 
-from .decorators import limit_rate
+from common.decorators import limit_rate
 from core.config.helper.env_reader import env
 from .models import FormQuestion, OurTeam, QuestionList
 from .serializers import FormQuestionSerializer, OurTeamSerializer, QuestionListSerializer

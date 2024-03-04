@@ -9,6 +9,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("main_page.urls")),
     path("", include("blog_and_news.urls")),
+    path("", include("client_actions.urls")),
     path('summernote/', include('django_summernote.urls')),
 ] + urls_swagger
 
