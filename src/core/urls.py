@@ -7,9 +7,10 @@ from core.drf_yasg import urlpatterns as urls_swagger
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", include("main_page.urls")),
-    path("", include("blog_and_news.urls")),
-    path("", include("client_actions.urls")),
+    path("api/v1/", include("main_page.urls")),
+    path("api/v1/", include("blog_and_news.urls")),
+    path("api/v1/", include("client_actions.urls")),
+    path("api/v1/", include("transport.urls")),
     path('summernote/', include('django_summernote.urls')),
 ] + urls_swagger
 

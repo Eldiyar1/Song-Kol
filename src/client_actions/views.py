@@ -7,40 +7,23 @@ from django.utils import timezone
 from rest_framework.pagination import LimitOffsetPagination
 from django.utils.translation import gettext_lazy as _
 
-from .models import (
-    CommentView,
-    PhotoComment
-)
-
-from .serializers import (
-    CommentViewSerializer,
-    PhotoSerializer
-
-)
+from .models import Comment, PhotoComment
+from .serializers import CommentSerializer, PhotoSerializer
 
 
 class CommentViewListCreate(generics.ListCreateAPIView):
-    queryset = CommentView.objects.all()
-    serializer_class = CommentViewSerializer
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
     # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filterset_fields = ['is_approved']
     ordering_fields = ['-date', 'stars']
     pagination_class = LimitOffsetPagination
 
-    def list(self, request, *args, **kwargs):
-        if not request.user.is_staff:
-            queryset = self.filter_queryset(self.get_queryset().filter(is_approved=True))
-            paginated_queryset = self.paginate_queryset(queryset)
-            serializer = self.get_serializer(paginated_queryset, many=True)
-            return self.get_paginated_response(serializer.data)
-        else:
-            return super().list(request, *args, **kwargs)
-
     def create(self, request, *args, **kwargs):
         mutable_data = request.data.copy()
         mutable_data["is_approved"] = False
         mutable_data["at_moderation"] = timezone.now()
-        serializer = CommentViewSerializer(data=mutable_data)
+        serializer = CommentSerializer(data=mutable_data)
         if serializer.is_valid():
             serializer.save()
             response_data = {
@@ -59,8 +42,8 @@ class CommentViewListCreate(generics.ListCreateAPIView):
 
 
 class CommentViewRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    queryset = CommentView.objects.all()
-    serializer_class = CommentViewSerializer
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
     # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def update(self, request, *args, **kwargs):
@@ -74,35 +57,21 @@ class CommentViewRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
                 instance.delete()
                 return Response(status=status.HTTP_204_NO_CONTENT)
 
-        serializer = CommentViewSerializer(instance, data=mutable_data)
+        serializer = CommentSerializer(instance, data=mutable_data)
         if serializer.is_valid() and request.user.is_staff:
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
 
-    def destroy(self, request, *args, **kwargs):
-        instance = self.get_object()
-        if request.user.is_staff:
-            instance.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        response_403 = {
-            "message": _("Недостаточно прав! Удалять комментарии могут только администраторы.")
-        }
-        return Response(response_403, status=status.HTTP_403_FORBIDDEN)
-
 
 class PhotoListCreateView(generics.ListCreateAPIView):
     queryset = PhotoComment.objects.all()
     serializer_class = PhotoSerializer
-
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data, many=isinstance(request.data, list))
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+    # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 class PhotoRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = PhotoComment.objects.all()
     serializer_class = PhotoSerializer
+    # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+

@@ -44,4 +44,3 @@ class BlogSerializer(serializers.ModelSerializer):
         for slide_data in slides_data:
             Slides.objects.create(blogs=blog_news, slides=slide_data)
         return blog_news
-

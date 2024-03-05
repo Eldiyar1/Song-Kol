@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import CommentView, PhotoComment
+from .models import Comment, PhotoComment
 
 
 class PhotoSerializer(serializers.ModelSerializer):
@@ -9,7 +9,7 @@ class PhotoSerializer(serializers.ModelSerializer):
         fields = ('id', 'photo')
 
 
-class CommentViewSerializer(serializers.ModelSerializer):
+class CommentSerializer(serializers.ModelSerializer):
     photos = PhotoSerializer(many=True, required=False, read_only=True)
     upload_images = serializers.ListField(
         child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
@@ -17,8 +17,8 @@ class CommentViewSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
-        model = CommentView
-        fields = ['id', 'stars', 'name', 'text', 'tour', 'is_approved', 'photos', 'upload_images']
+        model = Comment
+        fields = ('id', 'stars', 'name', 'text', 'tour', 'is_approved', 'photos', 'upload_images')
         read_only_fields = ('id', 'is_approved', 'photos')
         extra_kwargs = {
             "tour": {"required": False},
@@ -27,7 +27,7 @@ class CommentViewSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         photos_data = validated_data.pop('upload_images', [])
-        comment = CommentView.objects.create(**validated_data)
+        comment = Comment.objects.create(**validated_data)
         for photo_data in photos_data:
             PhotoComment.objects.create(comment=comment, photo=photo_data)
         return comment

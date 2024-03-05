@@ -1,10 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from .models import (
-    CommentView,
-    PhotoComment
-)
+from .models import Comment, PhotoComment
 
 
 class PhotoInline(admin.TabularInline):
@@ -12,7 +9,7 @@ class PhotoInline(admin.TabularInline):
     extra = 5
 
 
-@admin.register(CommentView)
+@admin.register(Comment)
 class CommentViewAdmin(admin.ModelAdmin):
     list_display = ('stars', 'name', 'text', 'created_at')
     list_filter = ('created_at', 'stars')

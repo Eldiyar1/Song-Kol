@@ -12,23 +12,23 @@ class BlogListCreateView(generics.ListCreateAPIView):
     filter_backends = [DjangoFilterBackend, SearchFilter]
     filterset_class = BlogFilter
     search_fields = ['title', 'category']
-    # permission_classes = [IsSuperuser | permissions.IsAuthenticatedOrReadOnly]
+    # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 
 class BlogRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = BlogNews.objects.all()
     serializer_class = BlogSerializer
-    # permission_classes = [IsSuperuser | permissions.IsAuthenticatedOrReadOnly]
+    # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 class SliderListCreateView(generics.ListCreateAPIView):
     queryset = BlogNews.objects.all()
     serializer_class = SlidesImagesSerializer
-    # permission_classes = [IsSuperuser | permissions.IsAuthenticatedOrReadOnly]
+    # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 class SliderRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = BlogNews.objects.all()
     serializer_class = SlidesImagesSerializer
-    # permission_classes = [IsSuperuser | permissions.IsAuthenticatedOrReadOnly]
+    # permission_classes = [permissions.IsAuthenticatedOrReadOnly]

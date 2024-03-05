@@ -12,6 +12,7 @@ from .serializers import FormQuestionSerializer, OurTeamSerializer, QuestionList
 class FormQuestionCreateView(generics.CreateAPIView):
     queryset = FormQuestion.objects.all()
     serializer_class = FormQuestionSerializer
+    # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     @limit_rate(num_requests=3, period=3600)
     def create(self, request, *args, **kwargs):
@@ -41,21 +42,25 @@ class FormQuestionCreateView(generics.CreateAPIView):
             return Response(response_400, status=status.HTTP_400_BAD_REQUEST)
 
 
-class OurTeamCreateView(generics.CreateAPIView):
+class OurTeamListCreateView(generics.ListCreateAPIView):
     queryset = OurTeam.objects.all()
     serializer_class = OurTeamSerializer
+    # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 class OurTeamRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = OurTeam.objects.all()
     serializer_class = OurTeamSerializer
+    # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 class QuestionListCreateView(generics.ListCreateAPIView):
     queryset = QuestionList.objects.all()
     serializer_class = QuestionListSerializer
+    # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 class QuestionListRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = QuestionList.objects.all()
     serializer_class = QuestionListSerializer
+    # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
