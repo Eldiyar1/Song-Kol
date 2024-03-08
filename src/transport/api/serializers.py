@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import CarRental, CarSlider, Taxi, CarWithDriver, CarWithoutDriver
+from transport.models import CarRental, CarSlider, Taxi, CarWithDriver, CarWithoutDriver
 
 
 class CarWithDriverSerializer(serializers.ModelSerializer):
@@ -19,6 +19,7 @@ class PhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = CarSlider
         fields = ('id', 'car_slider')
+        ref_name = "CarPhotoSerializes"
 
 
 class CarRentalSerializer(serializers.ModelSerializer):

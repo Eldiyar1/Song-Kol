@@ -1,6 +1,6 @@
 from django.urls import path
 
-from main_page.views import (
+from main_page.api.views import (
     FormQuestionCreateView, OurTeamListCreateView, OurTeamRetrieveUpdateDestroyView,
     QuestionListCreateView, QuestionListRetrieveUpdateDestroyView
 )

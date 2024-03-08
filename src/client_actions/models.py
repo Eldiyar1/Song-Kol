@@ -6,7 +6,8 @@ from common.models import BaseModel
 
 
 class Comment(BaseModel):
-    stars = models.PositiveIntegerField(default=0, choices=[(i, str(i)) for i in range(1, 6)], verbose_name=_("Оценка тура"))
+    stars = models.PositiveIntegerField(default=1, choices=[(i, str(i)) for i in range(1, 6)],
+                                        verbose_name=_("Оценка тура"))
     name = models.CharField(max_length=100, verbose_name=_("Имя"))
     text = models.TextField(verbose_name=_("Ваш отзыв"))
     is_approved = models.BooleanField(default=False, verbose_name=_("Одобрено"))

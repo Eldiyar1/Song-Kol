@@ -1,5 +1,4 @@
 from django.contrib import admin
-from django.utils.html import format_html
 
 from .models import Comment, PhotoComment
 
@@ -15,4 +14,3 @@ class CommentViewAdmin(admin.ModelAdmin):
     list_filter = ('created_at', 'stars')
     inlines = [PhotoInline]
     ordering = ('-created_at',)
-

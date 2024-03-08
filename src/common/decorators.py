@@ -1,5 +1,6 @@
 import time
 from functools import wraps
+
 from rest_framework import status
 from rest_framework.response import Response
 from django.utils.translation import gettext_lazy as _
@@ -27,3 +28,4 @@ def limit_rate(num_requests, period):
         return wrapped_view
 
     return decorator
+

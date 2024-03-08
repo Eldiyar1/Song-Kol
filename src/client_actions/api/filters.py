@@ -1,5 +1,5 @@
 import django_filters
-from .models import CommentView
+from client_actions.models import CommentView
 
 
 class CommentFilter(django_filters.FilterSet):

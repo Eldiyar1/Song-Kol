@@ -1,10 +1,10 @@
 from django.urls import path
-from .views import BlogListCreateView, BlogRetrieveUpdateDestroyView, SliderListCreateView, \
-    SliderRetrieveUpdateDestroyView
+from blog_and_news.api.views import BlogNewsListCreateView, BlogNewsRetrieveUpdateDestroyView, SliderListView, \
+    SliderRetrieveView
 
 urlpatterns = [
-    path('blogs/', BlogListCreateView.as_view(), name='blog-list-create'),
-    path('blogs/<int:pk>/', BlogRetrieveUpdateDestroyView.as_view(), name='blog-retrieve-update-destroy'),
-    path('sliders/', SliderListCreateView.as_view(), name='slider-list-create'),
-    path('sliders/<int:pk>/', SliderRetrieveUpdateDestroyView.as_view(), name='slider-retrieve-update-destroy'),
+    path('blog_news/', BlogNewsListCreateView.as_view(), name='blog-news-list-create'),
+    path('blog_news/<int:pk>/', BlogNewsRetrieveUpdateDestroyView.as_view(), name='blog-news_retrieve-update-destroy'),
+    path('sliders/', SliderListView.as_view(), name='slider-list'),
+    path('sliders/<int:pk>/', SliderRetrieveView.as_view(), name='slider-retrieve'),
 ]

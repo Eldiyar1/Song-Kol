@@ -1,29 +1,29 @@
 from django.contrib.sites.shortcuts import get_current_site
 from rest_framework import serializers
 
-from .models import BlogNews, Slides
+from blog_and_news.models import BlogNews, Slides
 
 from urllib.parse import unquote
 
 
-class SlidesImagesSerializer(serializers.ModelSerializer):
+class SlidersSerializer(serializers.ModelSerializer):
     class Meta:
         model = Slides
-        fields = ("id", "slides")
+        fields = ("id", "slides", 'blog_news')
 
 
-class BlogSerializer(serializers.ModelSerializer):
-    slides = SlidesImagesSerializer(many=True, required=False, read_only=True)
+class BlogNewsSerializer(serializers.ModelSerializer):
+    slides = SlidersSerializer(many=True, required=False, read_only=True)
     upload_slides = serializers.ListField(
         child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
         write_only=True
     )
-    date_posted = serializers.DateTimeField(format='%d.%m.%y')
+    created_at = serializers.DateTimeField(format='%d.%m.%y', read_only=True)
     content = serializers.SerializerMethodField()
 
     class Meta:
         model = BlogNews
-        fields = ('id', 'title', 'category', 'date_posted', 'image', 'content', 'slides', 'upload_slides')
+        fields = ('id', 'title', 'category', 'created_at', 'image', 'content', 'slides', 'upload_slides')
 
     def get_content(self, obj):
         # Получение хоста из контекста запроса
@@ -42,5 +42,5 @@ class BlogSerializer(serializers.ModelSerializer):
         slides_data = validated_data.pop('upload_slides', [])
         blog_news = BlogNews.objects.create(**validated_data)
         for slide_data in slides_data:
-            Slides.objects.create(blogs=blog_news, slides=slide_data)
+            Slides.objects.create(blog_news=blog_news, slides=slide_data)
         return blog_news

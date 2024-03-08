@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import (
+from client_actions.api.views import (
     CommentViewListCreate,
     CommentViewRetrieveUpdateDestroy,
     PhotoListCreateView,

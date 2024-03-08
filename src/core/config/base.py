@@ -9,7 +9,6 @@ PRODUCTION = env("PRODUCTION", default=False, cast=bool)
 
 SECRET_KEY = env("SECRET_KEY")
 
-
 THEME_PARTY_APPS = [
     "rest_framework",
     "django_filters",
@@ -80,7 +79,6 @@ WSGI_APPLICATION = "core.wsgi.application"
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
@@ -97,9 +95,11 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 REST_FRAMEWORK = {
-
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "PAGE_SIZE": 10,
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ],
 }
 
 LANGUAGE_CODE = "en-us"
@@ -136,7 +136,6 @@ MEDIA_URL = '/media/'
 
 MEDIA_ROOT = BASE_DIR.joinpath("media/")
 
-
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 if not PRODUCTION:
@@ -147,4 +146,3 @@ else:
 if DEBUG:
     INTERNAL_IPS = ["127.0.0.1"]
     MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]
-

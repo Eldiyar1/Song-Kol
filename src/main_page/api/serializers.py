@@ -1,13 +1,11 @@
 from rest_framework import serializers
-from .models import FormQuestion, OurTeam, QuestionList
+from main_page.models import FormQuestion, OurTeam, QuestionList
 
 
 class FormQuestionSerializer(serializers.ModelSerializer):
-    created_at = serializers.DateTimeField(read_only=True, format='%d-%m-%Y')
-
     class Meta:
         model = FormQuestion
-        fields = ('id', 'question_text', 'contact', 'created_at')
+        fields = ('id', 'question_text', 'contact',)
 
 
 class OurTeamSerializer(serializers.ModelSerializer):

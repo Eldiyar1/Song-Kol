@@ -8,7 +8,6 @@ from common.models import BaseModel
 class FormQuestion(BaseModel):
     question_text = models.TextField(verbose_name=_("Введите ваш вопрос"))
     contact = models.CharField(max_length=100, verbose_name=_("Оставьте ваш E-mail или WhatsApp"))
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Дата создания"))
 
     def __str__(self):
         return str(format_lazy(_("Вопрос: {question} - Контакт: {contact}"), question=self.question_text,

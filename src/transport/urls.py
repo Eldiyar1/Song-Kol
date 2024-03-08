@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import CarRentalListCreateView, CarRentalRetrieveUpdateDestroyView, TaxiListCreateView, \
+from transport.api.views import CarRentalListCreateView, CarRentalRetrieveUpdateDestroyView, TaxiListCreateView, \
     TaxiRetrieveUpdateDestroyView
 
 urlpatterns = [

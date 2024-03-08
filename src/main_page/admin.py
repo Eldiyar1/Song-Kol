@@ -32,16 +32,19 @@ class OurTeamAdmin(admin.ModelAdmin):
     truncated_experience.short_description = _('Опыт')
 
 
-@admin.register(QuestionList)
-class QuestionListAdmin(admin.ModelAdmin):
-    list_display = ('truncated_question', 'truncated_answer')
-    ordering = ('-created_at',)
+"""Раскоментить после доплаты правок"""
 
-    def truncated_question(self, obj):
-        return truncated_text(obj, 'question')
 
-    def truncated_answer(self, obj):
-        return truncated_text(obj, 'answer')
-
-    truncated_question.short_description = _('Вопрос')
-    truncated_answer.short_description = _('Ответ')
+# @admin.register(QuestionList)
+# class QuestionListAdmin(admin.ModelAdmin):
+#     list_display = ('truncated_question', 'truncated_answer')
+#     ordering = ('-created_at',)
+#
+#     def truncated_question(self, obj):
+#         return truncated_text(obj, 'question')
+#
+#     def truncated_answer(self, obj):
+#         return truncated_text(obj, 'answer')
+#
+#     truncated_question.short_description = _('Вопрос')
+#     truncated_answer.short_description = _('Ответ')

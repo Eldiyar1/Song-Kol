@@ -14,7 +14,7 @@ class CarWithoutDriverInline(admin.StackedInline):
 
 class CarSliderInline(admin.TabularInline):
     model = CarSlider
-    extra = 1
+    extra = 5
 
 
 @admin.register(CarRental)
