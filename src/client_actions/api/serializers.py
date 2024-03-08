@@ -16,10 +16,13 @@ class CommentSerializer(serializers.ModelSerializer):
         write_only=True, required=False
     )
     comment = serializers.CharField(source="photos.comment", write_only=True, required=False)
+    created_at = serializers.DateTimeField(format='%d.%m.%y', read_only=True)
 
     class Meta:
         model = Comment
-        fields = ('id', 'stars', 'name', 'text', 'tour', 'is_approved', 'photos', 'comment', 'upload_images')
+        fields = (
+            'id', 'stars', 'name', 'text', 'tour', 'created_at', 'is_approved', 'photos', 'comment', 'upload_images'
+        )
         read_only_fields = ('id', 'is_approved')
         extra_kwargs = {
             "tour": {"required": False},
@@ -32,4 +35,3 @@ class CommentSerializer(serializers.ModelSerializer):
         for photo_data in photos_data:
             PhotoComment.objects.create(comment=comment, photo=photo_data)
         return comment
-

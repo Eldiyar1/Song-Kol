@@ -9,16 +9,15 @@ from blog_and_news.models import Slides
 
 
 class BlogNewsListCreateView(generics.ListCreateAPIView):
-    queryset = BlogNews.objects.all()
+    queryset = BlogNews.objects.all().prefetch_related('slides')
     serializer_class = BlogNewsSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter]
     filterset_class = BlogNewsFilter
     search_fields = ['title', 'category']
-    permission_classes = [permissions.AllowAny]
 
 
 class BlogNewsRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = BlogNews.objects.all()
+    queryset = BlogNews.objects.all().prefetch_related('slides')
     serializer_class = BlogNewsSerializer
 
 

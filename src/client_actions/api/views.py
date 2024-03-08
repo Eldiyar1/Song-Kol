@@ -9,10 +9,10 @@ from client_actions.services.comment_moderation import CommentService
 
 
 class CommentViewListCreate(generics.ListCreateAPIView):
-    queryset = Comment.objects.all()
+    queryset = Comment.objects.all().prefetch_related('photos')
     serializer_class = CommentSerializer
     filterset_fields = ['is_approved']
-    ordering_fields = ['-date', 'stars']
+    ordering_fields = ['-created_at', 'stars']
     pagination_class = LimitOffsetPagination
     permission_classes = [permissions.AllowAny]
 
@@ -23,7 +23,7 @@ class CommentViewListCreate(generics.ListCreateAPIView):
 
 
 class CommentViewRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Comment.objects.all()
+    queryset = Comment.objects.all().prefetch_related('photos')
     serializer_class = CommentSerializer
     permission_classes = [permissions.AllowAny]
 

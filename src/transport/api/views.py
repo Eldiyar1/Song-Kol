@@ -5,13 +5,13 @@ from transport.api.serializers import CarRentalSerializer, TaxiSerializer
 
 
 class CarRentalListCreateView(generics.ListCreateAPIView):
-    queryset = CarRental.objects.all()
+    queryset = (CarRental.objects.all().select_related('car_with_driver', 'car_without_driver')
+                .prefetch_related('photos'))
     serializer_class = CarRentalSerializer
-    permission_classes = [permissions.AllowAny]
 
 
 class CarRentalRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = CarRental.objects.all()
+    queryset = CarRental.objects.all().prefetch_related('photos')
     serializer_class = CarRentalSerializer
 
 
