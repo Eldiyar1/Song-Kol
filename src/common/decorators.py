@@ -28,4 +28,3 @@ def limit_rate(num_requests, period):
         return wrapped_view
 
     return decorator
-

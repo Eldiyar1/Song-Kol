@@ -10,6 +10,7 @@ urlpatterns = [
     path("api/v1/", include("main_page.urls")),
     path("api/v1/", include("blog_and_news.urls")),
     path("api/v1/", include("client_actions.urls")),
+    path("api/v1/", include("tour.urls")),
     path("api/v1/", include("transport.urls")),
     path('summernote/', include('django_summernote.urls')),
 ] + urls_swagger

@@ -5,28 +5,28 @@ from tour.models import (
     TourProgram,
     Tips,
     Price,
-    Photo,
     TourAdd,
     BookingGroupTour,
     BookingPrivateTour,
     PriceDetail, Location,
-    TourProgramDay
+    TourProgramDay,
+    Image
 )
+
+admin.site.register(Image)
+admin.site.register(TourDates)
+admin.site.register(TourProgram)
 
 
 class PriceDetailsAdmin(admin.ModelAdmin):
-    list_display = "id person in_com per_person".split()
-    list_display_links = "id per_person".split()
-
-
-class TourProgramInline(admin.StackedInline):
-    model = TourProgram
-    extra = 0
+    list_display = ('id', 'person', 'per_person', 'in_com')
+    list_display_links = ('id', 'per_person')
+    readonly_fields = ('in_com',)
 
 
 class LocationInline(admin.StackedInline):
     model = Location
-    extra = 0
+    extra = 1
 
 
 class PriceInline(admin.StackedInline):
@@ -36,22 +36,22 @@ class PriceInline(admin.StackedInline):
 
 class TipsInline(admin.StackedInline):
     model = Tips
-    extra = 0
+    extra = 1
 
 
 class TourDatesInline(admin.StackedInline):
     model = TourDates
-    extra = 0
+    extra = 1
 
 
 class PriceDetailInline(admin.TabularInline):
     model = PriceDetail
-    extra = 0
-
-
-class PhotoInline(admin.StackedInline):
-    model = Photo
     extra = 1
+
+
+class ImageInline(admin.TabularInline):
+    model = Image
+    extra = 5
 
 
 @admin.register(TourAdd)
@@ -59,12 +59,11 @@ class TourAdmin(admin.ModelAdmin):
     model = TourAdd
     inlines = (
         PriceInline,
-        TourProgramInline,
         LocationInline,
         TipsInline,
         TourDatesInline,
         PriceDetailInline,
-        PhotoInline,
+        ImageInline,
     )
 
 
